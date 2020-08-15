@@ -1,0 +1,67 @@
+﻿@page
+@model PrestamosGHI.Pages.Clientes.RegistroClientesModel
+@{
+}
+
+<h1>Solicitud de Prestamo</h1>
+
+@if (!string.IsNullOrEmpty(Model.MensajeEliminacion))
+{
+    <label class="alert-info">@Model.MensajeEliminacion</label>
+}
+
+<form method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="texto" asp-for="Texto">
+
+        <div class="input-group-append">
+            <button class="input-group-text" type="submit">Buscar</button>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Id:</th>
+            <th>Nombre:</th>
+            <th>Apellido:</th>
+            <th>Monto del Prestamo:</th>
+            <th>Tiempo:</th>
+            <th>Fecha:</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    @foreach (var cliente in Model.Clientes)
+    {
+        <tr>
+            <td> @cliente.Id</td>
+            <td>
+                @cliente.Nombre
+            </td>
+            <td>
+                @cliente.Apellido
+            </td>
+            <td> @cliente.MontoPrestamo </td>
+            <td> @cliente.Plazo </td>
+            <td> @cliente.Fprestamo.Date.ToString("dd MMM yyyy") </td>
+            <td> @(cliente.Estatus == 1?"Pendiente de aprobación": "Aprobada") </td>
+
+            <td> <a asp-page="./DetalleClientes" asp-route-Id="@cliente.Id" class="btn btn-success" style="cursor:pointer">Ver detalle</a>  </td>
+            <td> <a asp-page="./Editar" asp-route-Id="@cliente.Id" class="btn btn-warning" style="cursor:pointer">Editar</a>  </td>
+            <td> <a asp-page="./Eliminar" asp-route-Id="@cliente.Id" class="btn btn-danger" style="cursor:pointer">Eliminar</a>  </td>
+            @if (cliente.Estatus == 1)
+            {
+                <td> <a asp-page="./Aprobacion" asp-route-Id="@cliente.Id" class="btn btn-success" style="cursor:pointer">Aprobar/Rechasar</a>  </td>
+            }
+
+        </tr>
+    }
+
+</table>
+
+<a asp-page="./Editar" class="btn btn-success">Crear Solicitud</a>
+
+@*<td> @estudiante.FechaNac.Date.ToString("dd MMM yyyy")</td>*@

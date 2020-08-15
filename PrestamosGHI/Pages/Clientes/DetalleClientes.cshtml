@@ -1,0 +1,62 @@
+﻿@page "{Id:int}"
+@model PrestamosGHI.Pages.Clientes.DetalleClientesModel
+@{
+    ViewData["Title"] = "DetalleCliente";
+}
+
+
+<div class="container">
+
+    <h1> @Model.Cliente.Nombre @Model.Cliente.Apellido</h1>
+
+</div>
+
+
+<div class="container">
+    <br />
+    <label style="font-weight:bold">Id:</label>
+    <br />
+    @Model.Cliente.Id
+</div>
+
+<div class="container">
+    <label style="font-weight:bold">Cedula:</label>
+    <br />
+    @Model.Cliente.Cedula
+</div>
+<div class="container">
+    <label style="font-weight:bold">Dirección></label>
+    <br />
+    @Model.Cliente.Direccion
+</div>
+<div class="container">
+    <label style="font-weight:bold">Telefono:></label>
+    <br />
+    @Model.Cliente.Telefono
+</div>
+<div class="container">
+    <label style="font-weight:bold">Monto del Prestamo</label>
+    <br />
+    @Model.Cliente.MontoPrestamo
+</div>
+<div class="container">
+    <label style="font-weight:bold">Ingresos Netos: </label>
+    <br />
+    @Model.Cliente.IngresoNeto
+</div>
+<div class="container">
+    <label style="font-weight:bold">Tiempo</label>
+    <br />
+    @Model.Cliente.Plazo
+</div>
+<div class="container">
+    <label style="font-weight:bold">Fecha</label>
+    <br />
+    @Model.Cliente.Fprestamo
+
+    
+</div>
+<div class="container"><a class="btn btn-primary" asp-page=".\RegistroClientes">Volver a Consulta</a></div>
+
+
+

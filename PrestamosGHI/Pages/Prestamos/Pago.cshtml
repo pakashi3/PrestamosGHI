@@ -1,0 +1,143 @@
+﻿@page
+@model PrestamosGHI.Pages.Clientes.PagoModel
+@{
+}
+
+
+
+    <div class="form-group row">
+        <div class="col-md-6 mb-5">
+            <div class="form-group">
+                <label asp-for="model.Monto" class="form-control-label text-uppercase">Nombre:</label>
+                <input type="text" class="form-control" asp-for="model.Monto" readonly="readonly" />
+                <span class="text-danger" asp-validation-for="model.Monto"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="model.CalculoList" class="form-control-label text-uppercase">Apellido:</label>
+                <input type="text" class="form-control" asp-for="model.Monto" readonly="readonly" />
+                <span class="text-danger" asp-validation-for="model.Monto"></span>
+            </div>
+
+
+        </div>
+        <div class="col-md-6 mb-5">
+
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th>NroCuota:</th>
+                        <th>Capital:</th>
+                        <th>Interes:</th>
+                        <th>cuotaMensual:</th>
+                        <th>Pendiente:</th>
+                        <th>:</th>
+
+
+                    </tr>
+                </thead>
+                <tbody id="tb-body">
+                    @foreach (var item in Model.model.CalculoList)
+                    {
+                        <tr>
+                            @{ string linkClik = "javascript:linkClik('" + item.GuiId + "','" + item.PrestamoGuiId + "','" + item.NroCuota + "','" + item.Pendiente + "')";}
+                            <td>@item.NroCuota:</td>
+                            <td>@item.Capital:</td>
+                            <td>@item.Interes:</td>
+                            <td>@item.cuotaMensual:</td>
+                            <td>@item.Pendiente:</td>
+                            <td> <a class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter" style="cursor:pointer">Pagar</a>  </td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-12 mb-5">
+            <div>
+                <div>
+                    <button type="button" id="btn-aprobar" class="btn btn-success">Aprobar</button>
+                    <button type="button" id="btn-rechasar" class="btn btn-success">Declinar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+
+                <form method="post" id="form-modal">
+                    <input type="hidden" class="form-control" asp-for="CalculoList.GuiId" readonly="readonly" />
+                    <input type="hidden" class="form-control" asp-for="CalculoList.PrestamoGuiId" readonly="readonly" />
+
+                    <div class="form-group">
+                        <label asp-for="CalculoList.NroCuota" class="form-control-label text-uppercase">Nombre:</label>
+                        <input type="text" class="form-control" asp-for="CalculoList.NroCuota" readonly="readonly" />
+                        <span class="text-danger" asp-validation-for="CalculoList.NroCuota"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CalculoList.Pendiente" class="form-control-label text-uppercase">Apellido:</label>
+                        <input type="text" class="form-control" asp-for="CalculoList.Pendiente" />
+                        <span class="text-danger" asp-validation-for="CalculoList.Pendiente"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CalculoList.MontoPagado" class="form-control-label text-uppercase">Apellido:</label>
+                        <input type="text" class="form-control" asp-for="CalculoList.MontoPagado" />
+                        <span class="text-danger" asp-validation-for="CalculoList.MontoPagado"></span>
+                    </div>
+                </form>
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="btn-save"  class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        function linkClik(GuiId, GuiIdPrestamo, NroCuota, monto) {
+            $("#exampleModalCenter").show();
+            debugger;
+            $("#CalculoList_GuiId").val(GuiId);
+            $("#CalculoList_PrestamoGuiId").val(GuiIdPrestamo);
+            $("#CalculoList_NroCuota").val(NroCuota);
+            $("#CalculoList_Pendiente").val(monto);
+
+        };
+
+
+        $('#btn-save').on('click', function (e) {
+            //e.preventDefault();
+          
+            $("#form-modal").submit();
+
+        });
+    </script>
+}

@@ -1,0 +1,140 @@
+﻿@page "{Id:int?}"
+
+@model PrestamosGHI.Pages.Clientes.EditarModel
+@{
+}
+    
+    <div class="col-lg-12 mb-5">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="h6 text-uppercase mb-0">Esta editando El cliente: @Model.Cliente.Nombre @Model.Cliente.Apellido</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="form-group row">
+                        <div class="col-md-6 mb-5">
+                            <div class="form-group">
+                                <label asp-for="Cliente.Nombre" class="form-control-label text-uppercase">Nombre:</label>
+                                <input type="text" class="form-control" asp-for="Cliente.Nombre" />
+                                <span class="text-danger" asp-validation-for="Cliente.Nombre"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cliente.Apellido" class="form-control-label text-uppercase">Apellido:</label>
+                                <input type="text" class="form-control" asp-for="Cliente.Apellido" />
+                                <span class="text-danger" asp-validation-for="Cliente.Apellido"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cliente.Cedula" class="form-control-label text-uppercase">Cedula:</label>
+                                <input type="text" class="form-control" asp-for="Cliente.Cedula" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cliente.Direccion" class="form-control-label text-uppercase">Direccion:</label>
+                                <input type="text" class="form-control" asp-for="Cliente.Direccion" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cliente.Telefono" class="form-control-label text-uppercase">Telefono:</label>
+                                <input type="text" class="form-control" asp-for="Cliente.Telefono" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cliente.MontoPrestamo" class="form-control-label text-uppercase">Monto del Prestamo</label>
+                                <input type="text" id="montoprestamo" class="form-control" asp-for="Cliente.MontoPrestamo" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cliente.IngresoNeto" class="form-control-label text-uppercase">Ingresos Netos</label>
+                                <input type="text" class="form-control" asp-for="Cliente.IngresoNeto" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cliente.Plazo" class="form-control-label text-uppercase">Tiempo</label>
+                                <input type="text" class="form-control" asp-for="Cliente.Plazo" />
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Cliente.Fprestamo" class="form-control-label text-uppercase">Fecha</label>
+                                <input type="text" class="form-control" asp-for="Cliente.Fprestamo" />
+                            </div>
+
+                        </div>
+                        <div class="col-md-6 mb-5">
+                            <a id="btn-cuotas" class="btn btn-success">Ver cuaotas</a>
+
+                            <table class="table table-bordered">
+
+                                <thead>
+                                    <tr>
+                                        <th>NroCuota:</th>
+                                        <th>Capital:</th>
+                                        <th>Interes:</th>
+                                        <th>cuotaMensual:</th>
+                                        <th>Pendiente:</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="tb-body">
+                                    @foreach (var item in Model.Cliente.CalculoList)
+                                    {
+                                        <tr>
+                                            <td>@item.NroCuota:</td>
+                                            <td>@item.Capital:</td>
+                                            <td>@item.Interes:</td>
+                                            <td>@item.cuotaMensual:</td>
+                                            <td>@item.Pendiente:</td>
+                                        </tr>
+
+                                    }
+
+                                    </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12 mb-5">
+                            <div>
+                                <div>
+                                    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+@section Scripts {
+
+    <script>
+
+        $('#btn-cuotas').on('click', function (e) {
+            //e.preventDefault();
+            debugger;
+            var body = '';
+            var prestamo = Number($("#montoprestamo").val());
+            //var prestamo = $("#<%=Cliente.MontoPrestamo%>");
+            var plazo = 12;
+            var interesporcentaje = 0.3;
+
+            var saldo = prestamo;
+            var interes = 0;
+            var cuotamensual = ((prestamo * (interesporcentaje) + prestamo) / plazo);
+            var capital = 0;
+
+            for (var i = 1; i <= 12; i++) {
+                interes = (prestamo * 0.3) / 12;
+                capital = cuotamensual - interes;
+                saldo = saldo - capital;
+
+                body += '<tr><td>' + i + '</td><td>' + roundToTwo(capital) + '</td><td>' + roundToTwo(interes) + '</td><td> ' + roundToTwo(cuotamensual) + '</td><td>' + roundToTwo(saldo) + '</td></tr>';
+
+            }
+
+            $('#tb-body').html(body);
+
+        });
+
+        function roundToTwo(num) {
+            return +(Math.round(num + "e+2") + "e-2");
+        }
+
+    </script>
+}

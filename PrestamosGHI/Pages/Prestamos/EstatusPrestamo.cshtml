@@ -1,0 +1,45 @@
+﻿@page
+@model PrestamosGHI.Pages.EstatusPrestamoModel
+@{
+}
+
+<h1>Solicitud de Prestamo</h1>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre:</th>
+            <th>Apellido:</th>
+            <th>Monto del Prestamo:</th>
+
+        </tr>
+    </thead>
+
+    @foreach (var prestamo in Model.prestamoList)
+    {
+        <tr>
+            <td> @prestamo.guid</td>
+            <td>
+                @prestamo.guidSolicitud
+            </td>
+            <td>
+                @prestamo.Interes
+            </td>
+
+            <td>
+                En Proceso
+            </td>
+            <td> <a asp-page="./Detalle" asp-route-Id="@prestamo.guid.ToString()" class="btn btn-success" style="cursor:pointer">Ver</a>  </td>
+            <td> <a asp-page="./Editar" asp-route-Id="@prestamo.guid.ToString()" class="btn btn-warning" style="cursor:pointer">Realizar Pago</a>  </td>
+
+
+        </tr>
+    }
+
+</table>
+
+<a asp-page="./Editar" class="btn btn-success">Crear Solicitud</a>
+
+@*<td> @estudiante.FechaNac.Date.ToString("dd MMM yyyy")</td>*@
